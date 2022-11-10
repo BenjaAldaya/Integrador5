@@ -19,13 +19,13 @@ public class Product {
     private String description;
 
     @Column
-    private float price;
+    private double price;
 
     @Column
     private int stock;
 
     public Product(){}
-    public Product(String nombre, String descripcion, float precio, int stock) {
+    public Product(String nombre, String descripcion, double precio, int stock) {
         this.name = nombre;
         this.description = descripcion;
         this.price = precio;
@@ -40,7 +40,7 @@ public class Product {
         this.description = descripcion;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -60,7 +60,7 @@ public class Product {
         return description;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 

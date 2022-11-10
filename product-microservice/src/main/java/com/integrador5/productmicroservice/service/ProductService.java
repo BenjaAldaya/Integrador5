@@ -1,12 +1,15 @@
 package com.integrador5.productmicroservice.service;
 
+import com.integrador5.productmicroservice.DTO.ProductDTO;
 import com.integrador5.productmicroservice.models.Product;
 import com.integrador5.productmicroservice.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -40,5 +43,22 @@ public class ProductService {
                 .orElseGet(() -> {
                     return this.productRepository.save(product);
                 });
+    }
+
+    public List<Product> findCanBuy(List<ProductDTO> products) {
+        List<Product> productList = new ArrayList<Product>();
+        for(ProductDTO dto: products){
+            Product tmp = this.productRepository.getById(dto.getProduct_id());
+            if(tmp != null && tmp.getStock() >= dto.getQuantity()){
+                productList.add(tmp);
+            }
+        }
+        return productList;
+    }
+
+    public void updateProductByList(List<Product> products) {
+        for(Product p: products){
+            this.updateProduct(p.getId_product(), p);
+        }
     }
 }

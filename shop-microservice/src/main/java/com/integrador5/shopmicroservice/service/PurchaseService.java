@@ -4,6 +4,8 @@ import com.integrador5.shopmicroservice.DTO.ProductDTO;
 import com.integrador5.shopmicroservice.model.Product;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import java.net.http.HttpClient;
+//import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -19,34 +21,35 @@ public class PurchaseService {
     public void Purchase(List<Product> toPurchase){
        //creo json de los productos a comprar (id_producto y cantidad)
         JSONArray body = crearjson(toPurchase);
-        //llamo al servicio de compra
+        System.out.println(body.toList());
+        //llamo al servicio de productos y me trae los productos que solicite y tienen stock disponible
         List<ProductDTO> allProduct = getProducts(body);
 
-        //restarlo , si no hay stock cortarlo
-        for (Product p : toPurchase){
-            for (ProductDTO pdto : allProduct) {
-                if(p.getId() == pdto.getId_producto()){
-                    int newstock = pdto.getStock()-p.getQuantity();
-                    pdto.setStock(newstock);
-                }
-            }
+        //recorrer y restar el stock
+//        for (Product p : toPurchase){
+//            for (ProductDTO pdto : allProduct) {
+//                if(p.getId() == pdto.getId_producto()){
+//                    int newstock = pdto.getStock()-p.getQuantity();
+//                    pdto.setStock(newstock);
+//                }
+//            }
         }
 
-        //actualizo con el put(es un endpoint que tiene productos) con ProductoDTO ConfirmProduct(allProduct)
-        if(update(allProduct)){
-            //creo la compra
-            System.out.println(allProduct);
-        };
+        //actualizo con el put con ProductoDTO
+//        if(update(allProduct)){
+//            //creo la compra
+//        };
 
-    }
+//    }
 
     public List<ProductDTO> getProducts(JSONArray body) {
         RestTemplate restTemplate = new RestTemplate();
-        System.out.println(body);
+
         String resourceUrl
                 = "http://localhost:8080/api/products/cart";
 
-        ResponseEntity<List>response = restTemplate.exchange(resourceUrl, HttpMethod.GET, new HttpEntity<JSONArray>(body), List.class);
+        HttpEntity<JSONArray> jsonbody = new HttpEntity<>(body);
+        ResponseEntity<List>response = restTemplate.exchange(resourceUrl, HttpMethod.GET,jsonbody, List.class);
 
 
         // Fetch JSON response as String wrapped in ResponseEntity

@@ -1,10 +1,10 @@
-package com.integrador5.productmicroservice.DTO;
+package com.integrador5.shopmicroservice.DTO;
 
-public class ProductDTO {
+public class ProductDTO2 {
     Integer product_id;
     int quantity;
 
-    public ProductDTO( int quantity,Integer id){
+    public ProductDTO2( int quantity,Integer id){
         this.product_id = id;
         this.quantity = quantity;
     }
@@ -25,3 +25,4 @@ public class ProductDTO {
         this.quantity = quantity;
     }
 }
+

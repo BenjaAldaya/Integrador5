@@ -21,7 +21,7 @@ public class ProductController {
 
     @PostMapping(value = "/insert")
     public void insertarProducto(@RequestBody Product product){
-        return this.productService.insertProduct(product);
+        this.productService.insertProduct(product);
     }
 
 

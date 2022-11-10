@@ -35,17 +35,18 @@ public class PurchaseService {
         //actualizo con el put(es un endpoint que tiene productos) con ProductoDTO ConfirmProduct(allProduct)
         if(update(allProduct)){
             //creo la compra
+            System.out.println(allProduct);
         };
 
     }
 
     public List<ProductDTO> getProducts(JSONArray body) {
         RestTemplate restTemplate = new RestTemplate();
-
+        System.out.println(body);
         String resourceUrl
-                = "http://localhost:8080/api/products/";
+                = "http://localhost:8080/api/products/cart";
 
-        ResponseEntity<List>response = restTemplate.exchange(resourceUrl, HttpMethod.GET, new HttpEntity<>(body), List.class);
+        ResponseEntity<List>response = restTemplate.exchange(resourceUrl, HttpMethod.GET, new HttpEntity<JSONArray>(body), List.class);
 
 
         // Fetch JSON response as String wrapped in ResponseEntity
@@ -55,7 +56,6 @@ public class PurchaseService {
         List<ProductDTO> productsJson = response.getBody();
 
         System.out.println(productsJson);
-
         return productsJson;
 
     }

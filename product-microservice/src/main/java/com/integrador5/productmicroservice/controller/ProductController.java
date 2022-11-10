@@ -1,5 +1,6 @@
 package com.integrador5.productmicroservice.controller;
 
+import com.integrador5.productmicroservice.DTO.ProductDTO;
 import com.integrador5.productmicroservice.models.Product;
 import com.integrador5.productmicroservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class ProductController {
 
     @PostMapping(value = "/insert")
     public void insertarProducto(@RequestBody Product product){
-        return this.productService.insertProduct(product);
+        this.productService.insertProduct(product);
     }
 
 
@@ -33,5 +34,15 @@ public class ProductController {
     @PutMapping(value="/update/id/{id}")
     public void updateProduct(@PathVariable Integer id, @RequestBody Product product){
         this.productService.updateProduct(id,product);
+    }
+
+    @PutMapping(value="/update/id/list")
+    public void updateProductByList(@RequestBody List<Product> product){
+        this.productService.updateProductByList(product);
+    }
+
+    @GetMapping(value="/cart")
+    public List<Product> canBuyThem(@RequestBody List<ProductDTO> products){
+        return this.productService.findCanBuy(products);
     }
 }

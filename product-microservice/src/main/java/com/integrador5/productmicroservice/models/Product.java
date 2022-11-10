@@ -10,58 +10,58 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id_producto;
+    private Integer id_product;
 
     @Column
-    private String nombre;
+    private String name;
 
     @Column
-    private String descripcion;
+    private String description;
 
     @Column
-    private float precio;
+    private double price;
 
     @Column
     private int stock;
 
     public Product(){}
-    public Product(String nombre, String descripcion, float precio, int stock) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.precio = precio;
+    public Product(String nombre, String descripcion, double precio, int stock) {
+        this.name = nombre;
+        this.description = descripcion;
+        this.price = precio;
         this.stock = stock;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String nombre) {
+        this.name = nombre;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setDescription(String descripcion) {
+        this.description = descripcion;
     }
 
-    public void setPrecio(float precio) {
-        this.precio = precio;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public void setStock(int stock) {
         this.stock = stock;
     }
 
-    public Integer getId_producto() {
-        return id_producto;
+    public Integer getId_product() {
+        return id_product;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getDescription() {
+        return description;
     }
 
-    public float getPrecio() {
-        return precio;
+    public double getPrice() {
+        return price;
     }
 
     public int getStock() {
@@ -71,10 +71,10 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" +
-                "id_producto=" + id_producto +
-                ", nombre='" + nombre + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                ", precio=" + precio +
+                "id_producto=" + id_product +
+                ", nombre='" + name + '\'' +
+                ", descripcion='" + description + '\'' +
+                ", precio=" + price +
                 ", stock=" + stock +
                 '}';
     }

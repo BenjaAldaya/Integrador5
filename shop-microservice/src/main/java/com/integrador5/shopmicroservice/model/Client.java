@@ -13,14 +13,14 @@ public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Integer id_client;
+    private Integer id_client;
 
     @Column
-    String name;
+    private String name;
 
     @OneToMany
     @Column
-    List<Purchase> purchaseslist;
+    private List<Purchase> purchaseslist;
 
     public Client() {
     }
@@ -34,7 +34,6 @@ public class Client {
     public Integer getId_client() {
         return id_client;
     }
-
 
     public String getName() {
         return name;
@@ -50,5 +49,13 @@ public class Client {
 
     public void setPurchaseslist(List<Purchase> purchaseslist) {
         this.purchaseslist = purchaseslist;
+    }
+
+    public float getTotalPricePurchases(){
+        float result = 0;
+        for(Purchase p :purchaseslist){
+            result += p.getPrice();
+        }
+        return result;
     }
 }

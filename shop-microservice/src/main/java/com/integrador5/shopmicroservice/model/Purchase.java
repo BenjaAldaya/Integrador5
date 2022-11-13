@@ -14,28 +14,28 @@ public class Purchase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Integer id;
+    private Integer id;
 
     @Column
-    Date date;
+    private Date date;
 
     @Column
-    float precio;
+    private float price;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase")
-    List<Product> productList = new java.util.ArrayList<>();
+    private List<Product> productList = new java.util.ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "client_ID")
-    Client client;
+    private Client client;
 
     public Purchase() {
     }
 
-    public Purchase(Integer id, Date date, float precio, List<Product> productList, Client client) {
+    public Purchase(Integer id, Date date, float price, List<Product> productList, Client client) {
         this.id = id;
         this.date = date;
-        this.precio = precio;
+        this.price = price;
         this.productList = productList;
         this.client = client;
     }
@@ -52,12 +52,12 @@ public class Purchase {
         this.date = date;
     }
 
-    public float getPrecio() {
-        return precio;
+    public float getPrice() {
+        return price;
     }
 
-    public void setPrecio(float precio) {
-        this.precio = precio;
+    public void setPrice(float price) {
+        this.price = price;
     }
 
     public List<Product> getProductList() {

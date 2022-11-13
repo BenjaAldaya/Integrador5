@@ -2,10 +2,13 @@ package com.integrador5.shopmicroservice.service;
 
 import com.integrador5.shopmicroservice.DTO.ProductDTO;
 import com.integrador5.shopmicroservice.model.Product;
+import com.integrador5.shopmicroservice.model.Purchase;
+import com.integrador5.shopmicroservice.repository.PurchaseRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.net.http.HttpClient;
 //import org.springframework.http.HttpEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +21,28 @@ import java.util.List;
 @Service
 public class PurchaseService {
 
-    public void Purchase(List<Product> toPurchase){
+    /**
+     * inyeccion de capa de configuracion
+     */
+    @Autowired
+    private RestTemplate clientRest;
+
+    @Autowired
+    private PurchaseRepository purchaseRepository;
+
+    public List<Purchase> getAllPurchases(){
+        return this.purchaseRepository.findAll();
+    }
+
+    public void insertPurchase(Purchase newPurchase){
+        this.purchaseRepository.save(newPurchase);
+    }
+
+    public void deletePurchase(Integer id){
+        this.purchaseRepository.deleteById(id);
+    }
+
+    public void purchase(List<Product> toPurchase){
        //creo json de los productos a comprar (id_producto y cantidad)
         JSONArray body = crearjson(toPurchase);
         System.out.println(body.toList());
@@ -88,4 +112,4 @@ public class PurchaseService {
 
         return jsonarray;
     }
-    }
+}

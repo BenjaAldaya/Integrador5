@@ -1,7 +1,6 @@
 package com.integrador5.shopmicroservice.controller;
 
 import com.integrador5.shopmicroservice.model.Product;
-import com.integrador5.shopmicroservice.model.Purchase;
 import com.integrador5.shopmicroservice.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,11 +16,11 @@ import java.util.List;
 public class PurchaseController {
 
     @Autowired
-    PurchaseService purchaseService;
+    private PurchaseService purchaseService;
 
     @PostMapping(value = "/cartlist")
     public void purchase(@RequestBody List<Product> toPurchase){
-        this.purchaseService.Purchase(toPurchase);
+        this.purchaseService.purchase(toPurchase);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.integrador5.shopmicroservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,6 +24,7 @@ public class Purchase {
     private float price;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase")
+    @JsonIgnore
     private List<Product> productList = new java.util.ArrayList<>();
 
     @ManyToOne
@@ -74,5 +76,13 @@ public class Purchase {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public void setPrice(){
+        float totaltemp=0;
+        for(Product p: productList){
+            totaltemp += p.getPrice() * p.getQuantity();
+        }
+        this.price = totaltemp;
     }
 }

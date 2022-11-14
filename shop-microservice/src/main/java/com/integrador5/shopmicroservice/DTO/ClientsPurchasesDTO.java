@@ -1,4 +1,7 @@
 package com.integrador5.shopmicroservice.DTO;
+
+import org.springframework.data.jpa.domain.AbstractPersistable_;
+
 /**
  *
  * @author Grupo1
@@ -8,6 +11,7 @@ package com.integrador5.shopmicroservice.DTO;
  */
 public class ClientsPurchasesDTO {
     private String clientName;
+ //   private Integer idPurchase;
     private float totalPrice;
 
     public ClientsPurchasesDTO(){}
@@ -16,6 +20,7 @@ public class ClientsPurchasesDTO {
         this.clientName = clientName;
         this.totalPrice = totalPrice;
     }
+
 
     public String getClientName() {
         return clientName;

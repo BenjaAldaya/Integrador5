@@ -2,6 +2,7 @@ package com.integrador5.shopmicroservice.service;
 
 import com.integrador5.shopmicroservice.DTO.ClientsPurchasesDTO;
 import com.integrador5.shopmicroservice.model.Client;
+import com.integrador5.shopmicroservice.model.Purchase;
 import com.integrador5.shopmicroservice.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,13 +49,9 @@ public class ClientService {
      * @return lista del tipo dto
      */
     public List<ClientsPurchasesDTO> getClientsPurchasesReport() {
-        List<Client> clients = clientRepository.findAll();
+        List<Purchase> clientPurchases = clientRepository.getClientPurchases();
         List<ClientsPurchasesDTO> report = new ArrayList<>();
 
-        for(Client c : clients){
-            ClientsPurchasesDTO newDTO = new ClientsPurchasesDTO(c.getName(), c.getTotalPricePurchases());
-            report.add(newDTO);
-        }
-        return report;
+
     }
 }

@@ -19,6 +19,9 @@ public class Product {
     private String name;
 
     @Column
+    private float price;
+
+    @Column
     private int quantity;
 
     @ManyToOne
@@ -63,11 +66,20 @@ public class Product {
         this.purchase = purchase;
     }
 
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", price=" + price +
                 ", quantity=" + quantity +
                 ", purchase=" + purchase +
                 '}';

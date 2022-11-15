@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClientService {
@@ -49,9 +50,12 @@ public class ClientService {
      * @return lista del tipo dto
      */
     public List<ClientsPurchasesDTO> getClientsPurchasesReport() {
-        List<Purchase> clientPurchases = clientRepository.getClientPurchases();
+//        List<Purchase> clientPurchases = clientRepository.getClientPurchases();
         List<ClientsPurchasesDTO> report = new ArrayList<>();
+        return report;
+    }
 
-
+    public Client getById(Integer Id){
+        return this.clientRepository.getById(Id);
     }
 }

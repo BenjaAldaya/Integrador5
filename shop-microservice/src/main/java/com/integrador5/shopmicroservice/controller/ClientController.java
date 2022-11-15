@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/clients")
@@ -43,6 +44,11 @@ public class ClientController {
     @GetMapping(value = "/ClientsPurchasesReport")
     public List<ClientsPurchasesDTO> getClientsPurchasesReport(){
         return clientService.getClientsPurchasesReport();
+    }
+
+    @GetMapping(value = "/id/{id}")
+    public Client getById (@PathVariable Integer Id){
+        return this.clientService.getById(Id);
     }
 
 }

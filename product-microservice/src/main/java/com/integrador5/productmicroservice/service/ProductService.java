@@ -61,4 +61,8 @@ public class ProductService {
             this.updateProduct(p.getId_product(), p);
         }
     }
+
+    public Optional<Product> getById(Integer id) {
+        return productRepository.findById(id);
+    }
 }

@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Integer> {
 
-    @Query("SELECT c.id, c.name, p.price FROM Client c JOIN c.purchases p)")
+    @Query("SELECT c.id_client, c.name, p.price FROM Client c JOIN c.purchaseslist p")
     public float getClientsPurchasesPrice();
 }

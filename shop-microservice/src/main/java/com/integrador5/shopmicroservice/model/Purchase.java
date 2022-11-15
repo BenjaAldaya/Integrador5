@@ -18,7 +18,7 @@ public class Purchase {
     private Integer id;
 
     @Column
-    private Date date;
+    private String date;
 
     @Column
     private float price;
@@ -34,11 +34,10 @@ public class Purchase {
     public Purchase() {
     }
 
-    public Purchase(Integer id, Date date, float price, List<Product> productList, Client client) {
-        this.id = id;
+    public Purchase(String date, List<Product> productList,float price ,Client client) {
         this.date = date;
-        this.price = price;
         this.productList = productList;
+        this.price = price;
         this.client = client;
     }
 
@@ -46,11 +45,11 @@ public class Purchase {
         return id;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -78,11 +77,4 @@ public class Purchase {
         this.client = client;
     }
 
-    public void setPrice(){
-        float totaltemp=0;
-        for(Product p: productList){
-            totaltemp += p.getPrice() * p.getQuantity();
-        }
-        this.price = totaltemp;
-    }
 }

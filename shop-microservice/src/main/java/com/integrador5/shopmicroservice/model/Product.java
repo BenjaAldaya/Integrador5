@@ -12,14 +12,7 @@ import javax.persistence.*;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-
-    @Column
-    private String name;
-
-    @Column
-    private float price;
 
     @Column
     private int quantity;
@@ -31,24 +24,15 @@ public class Product {
     public Product() {
     }
 
-    public Product(Integer id, String name, int quantity, Purchase purchase) {
+    public Product(Integer id,int quantity) {
         this.id = id;
-        this.name = name;
         this.quantity = quantity;
-        this.purchase = purchase;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public int getQuantity() {
         return quantity;
@@ -66,20 +50,18 @@ public class Product {
         this.purchase = purchase;
     }
 
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
+//    public float getPrice() {
+//        return price;
+//    }
+//
+//    public void setPrice(float price) {
+//        this.price = price;
+//    }
 
     @Override
     public String toString() {
         return "Product{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
                 ", quantity=" + quantity +
                 ", purchase=" + purchase +
                 '}';

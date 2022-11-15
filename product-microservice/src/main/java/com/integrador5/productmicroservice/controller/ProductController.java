@@ -6,7 +6,9 @@ import com.integrador5.productmicroservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/products")
@@ -44,5 +46,10 @@ public class ProductController {
     @GetMapping(value="/cart")
     public List<Product> canBuyThem(@RequestBody List<ProductDTO> products){
         return this.productService.findCanBuy(products);
+    }
+
+    @GetMapping(value = "/id/{id}")
+    public Optional<Product> getById(@PathVariable Integer id){
+        return this.productService.getById(id);
     }
 }

@@ -17,6 +17,6 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Integer> {
     public List<PurchasesPerDayDTO> getPurchasesPerDayReport();
 
     //TODO
-    @Query("SELECT ")
-    public List<MostPopularProductDTO> getMostPopularProductReport();
+//    @Query("SELECT ")
+//    public List<MostPopularProductDTO> getMostPopularProductReport();
 }

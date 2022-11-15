@@ -2,68 +2,73 @@ package com.integrador5.shopmicroservice.DTO;
 
 public class ProductDTO {
 
-    private Integer id_producto;
+    private Integer id_product;
 
-    private String nombre;
+    private String name;
 
-    private String descripcion;
+    private String description;
 
-    private float precio;
+    private float price;
 
     private int stock;
 
     public ProductDTO(){}
 
-    public ProductDTO(String nombre, String descripcion, float precio, int stock) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.precio = precio;
+    public ProductDTO(Integer id_product, String name, String description, float price, int stock) {
+        this.id_product = id_product;
+        this.name = name;
+        this.description = description;
+        this.price = price;
         this.stock = stock;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public Integer getId_product() {
+        return id_product;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setId_product(int id_product) {
+        this.id_product = id_product;
     }
 
-    public void setPrecio(float precio) {
-        this.precio = precio;
+    public String getName() {
+        return name;
     }
 
-    public void setStock(int stock) {
-        this.stock = stock;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Integer getId_producto() {
-        return id_producto;
+    public String getDescription() {
+        return description;
     }
 
-    public String getNombre() {
-        return nombre;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public float getPrice() {
+        return price;
     }
 
-    public float getPrecio() {
-        return precio;
+    public void setPrice(float price) {
+        this.price = price;
     }
 
     public int getStock() {
         return stock;
     }
 
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
     @Override
     public String toString() {
-        return "Product{" +
-                "id_producto=" + id_producto +
-                ", nombre='" + nombre + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                ", precio=" + precio +
+        return "ProductDTO{" +
+                "id_product=" + id_product +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
                 ", stock=" + stock +
                 '}';
     }

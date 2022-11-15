@@ -33,7 +33,7 @@ public class PurchaseService {
     private PurchaseRepository purchaseRepository;
 
     @Autowired
-    private ClientController clientController;
+    private ProductService productService;
 
     @Autowired
     private ClientService clientService;
@@ -42,12 +42,26 @@ public class PurchaseService {
         return this.purchaseRepository.findAll();
     }
 
-    public void insertPurchase(Purchase newPurchase){
-        this.purchaseRepository.save(newPurchase);
+    public Integer insertPurchase(Purchase newPurchase){
+        return this.purchaseRepository.save(newPurchase).getId();
     }
 
     public void deletePurchase(Integer id){
         this.purchaseRepository.deleteById(id);
+    }
+
+    public Purchase updatePurchase(Integer id_purchase, Purchase p) {
+        return this.purchaseRepository.findById(id_purchase)
+                .map(oldClient -> {
+                    oldClient.setDate(p.getDate());
+                    oldClient.setPrice(p.getPrice());
+                    oldClient.setProductList(p.getProductList());
+                    oldClient.setClient(p.getClient());
+                    return this.purchaseRepository.save(oldClient);
+                })
+                .orElseGet(() -> {
+                    return this.purchaseRepository.save(p);
+                });
     }
 
 //    public void purchase(List<Product> toPurchase){
@@ -68,24 +82,32 @@ public class PurchaseService {
 //        }
 
     public void purchase (List<Product> toPurchase ,Integer idClient){
+        Client client = clientService.getById(idClient);
         List<ProductDTO> allProduct = getProductByListOfId(toPurchase);
         List<ProductDTO> listProductDto = searchAndUpdate(toPurchase,allProduct);
         if(listProductDto != null){
             if(update(listProductDto)){
+                //informacion de la compra
                 Date date = new Date();
                 SimpleDateFormat DateFor = new SimpleDateFormat("dd/MM/yyyy");
                 float totalprice = getTotalPrice(toPurchase,listProductDto);
-                //  getClientById(idClient) llama al endpoint de get client by id
-                Client client = clientService.getById(idClient);
-                System.out.println(client.getId_client()+client.getName());
-                if (client.getId_client() != null) {
-                    Purchase purchase = new Purchase(DateFor.format(date), toPurchase, totalprice, client);
-                    purchaseRepository.save(purchase);
-                    clientService.updatePurchases(client,purchase);
-                    System.out.println("se hizo la compra");
-                }else{
-                    System.out.println("cliente no existe");
+                //creo la compra
+                Purchase purchase = new Purchase(DateFor.format(date),totalprice, client);
+                //la persisto
+                Integer purchaseid = this.insertPurchase(purchase);
+                purchase.setId(purchaseid);
+                //actualizo los productos con la compra
+                for (Product p :toPurchase){
+                    p.setPurchase(purchase);
+                    this.productService.insertProduct(p);
                 }
+
+                purchase.setProductList(toPurchase);
+                this.updatePurchase(purchase.getId(),purchase);
+//                System.out.println(this.getAllPurchases());
+                clientService.updatePurchases(client,purchase);
+//                System.out.println(client);
+                System.out.println("se hizo la compra");
             }
         }else{
             System.out.println("NO se hizo la compra");
@@ -223,4 +245,5 @@ public class PurchaseService {
         }
         return totalprice;
     }
+
 }

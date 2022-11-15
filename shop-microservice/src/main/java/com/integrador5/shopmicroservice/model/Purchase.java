@@ -24,7 +24,8 @@ public class Purchase {
     private float price;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase")
-    private List<Product> productList = new ArrayList<>();
+    @JsonIgnore
+    private List<Product> productList;
 
     @ManyToOne
     @JoinColumn(name = "client_ID")
@@ -33,9 +34,9 @@ public class Purchase {
     public Purchase() {
     }
 
-    public Purchase(String date, List<Product> productList,float price ,Client client) {
+    public Purchase(String date,float price ,Client client) {
         this.date = date;
-        this.productList = productList;
+        this.productList = new ArrayList<>();
         this.price = price;
         this.client = client;
     }
@@ -76,4 +77,14 @@ public class Purchase {
         this.client = client;
     }
 
+    @Override
+    public String toString() {
+        return "Purchase{" +
+                "id=" + id +
+                ", date='" + date + '\'' +
+                ", price=" + price +
+                ", productList=" + productList +
+                ", client=" + client +
+                '}';
+    }
 }

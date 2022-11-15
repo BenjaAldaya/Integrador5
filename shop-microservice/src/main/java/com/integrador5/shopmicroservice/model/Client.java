@@ -1,5 +1,6 @@
 package com.integrador5.shopmicroservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,8 +20,8 @@ public class Client {
     @Column
     private String name;
 
-    @OneToMany
-    @JoinColumn
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Purchase> purchaseslist;
 
     public Client() {
@@ -49,6 +50,15 @@ public class Client {
 
     public void setPurchaseslist(List<Purchase> purchaseslist) {
         this.purchaseslist = purchaseslist;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id_client=" + id_client +
+                ", name='" + name + '\'' +
+                ", purchaseslist=" + purchaseslist +
+                '}';
     }
 
     public float getTotalPricePurchases(){

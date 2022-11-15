@@ -20,7 +20,7 @@ public class Client {
     private String name;
 
     @OneToMany
-    @Column
+    @JoinColumn
     private List<Purchase> purchaseslist;
 
     public Client() {
@@ -58,4 +58,5 @@ public class Client {
         }
         return result;
     }
+
 }

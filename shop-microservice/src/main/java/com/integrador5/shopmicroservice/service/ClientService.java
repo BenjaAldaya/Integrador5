@@ -56,6 +56,14 @@ public class ClientService {
     }
 
     public Client getById(Integer Id){
-        return this.clientRepository.getById(Id);
+        return this.clientRepository.getReferenceById(Id);
+    }
+
+    public void updatePurchases(Client client ,Purchase purchase){
+        List<Purchase> temp = client.getPurchaseslist();
+        temp.add(purchase);
+        client.setPurchaseslist(temp);
+        this.updateClient(client.getId_client(),client);
+
     }
 }

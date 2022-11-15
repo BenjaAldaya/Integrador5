@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,8 +24,7 @@ public class Purchase {
     private float price;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase")
-    @JsonIgnore
-    private List<Product> productList = new java.util.ArrayList<>();
+    private List<Product> productList = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "client_ID")

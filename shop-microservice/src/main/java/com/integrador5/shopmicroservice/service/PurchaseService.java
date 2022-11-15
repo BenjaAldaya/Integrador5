@@ -67,16 +67,18 @@ public class PurchaseService {
     public void purchase (List<Product> toPurchase ,Integer idClient){
         List<ProductDTO> allProduct = getProductByListOfId(toPurchase);
         List<ProductDTO> listProductDto = searchAndUpdate(toPurchase,allProduct);
-        List<Product> listProduct = new ArrayList<>();
         if(listProductDto != null){
             if(update(listProductDto)){
                 Date date = new Date();
                 SimpleDateFormat DateFor = new SimpleDateFormat("dd/MM/yyyy");
                 float totalprice = getTotalPrice(toPurchase,listProductDto);
+                //  getClientById(idClient) llama al endpoint de get client by id
                 Client client = clientController.getById(idClient);
+
                 if (client != null) {
                     Purchase purchase = new Purchase(DateFor.format(date), toPurchase, totalprice, client);
                     purchaseRepository.save(purchase);
+                    // updateClientPruchase(purchase)  llama al endpoint de put de update client purchase
                     System.out.println("se hizo la compra");
                 }else{
                     System.out.println("cliente no existe");

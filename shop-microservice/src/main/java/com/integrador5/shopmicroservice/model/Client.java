@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,10 +26,9 @@ public class Client {
     public Client() {
     }
 
-    public Client(Integer id_client, String name, List<Purchase> purchaseslist) {
-        this.id_client = id_client;
+    public Client(String name) {
+        this.purchaseslist = new ArrayList<>();
         this.name = name;
-        this.purchaseslist = purchaseslist;
     }
 
     public Integer getId_client() {

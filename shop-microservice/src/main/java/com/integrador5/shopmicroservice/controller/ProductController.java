@@ -25,5 +25,8 @@ public class ProductController {
     }
 
     @GetMapping(value = "/popularproduct")
-    public MostPopularProductDTO popularProducts (){return this.productService.getPopularProduct();}
+    public MostPopularProductDTO popularProducts (){
+        MostPopularProductDTO dto = this.productService.getPopularProduct();
+        System.out.println("DTO SOLO" + dto);
+        return dto;}
 }

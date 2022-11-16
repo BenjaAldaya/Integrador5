@@ -112,7 +112,11 @@ public class ProductService {
 //       }
 
        public MostPopularProductDTO getPopularProduct(){
-        return this.productRepository.getMostPopularProductReport().get(0);
+        List<MostPopularProductDTO> dto = this.productRepository.getMostPopularProductReport();
+        for (MostPopularProductDTO d : dto){
+            System.out.println(d);
+        }
+        return dto.get(0);
        }
 
 }

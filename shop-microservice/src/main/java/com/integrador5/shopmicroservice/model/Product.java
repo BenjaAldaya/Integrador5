@@ -15,6 +15,9 @@ public class Product {
     private Integer id;
 
     @Column
+    private String name;
+
+    @Column
     private int quantity;
 
     @ManyToOne

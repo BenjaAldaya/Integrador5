@@ -1,13 +1,11 @@
 package com.integrador5.shopmicroservice.service;
 
-import com.integrador5.shopmicroservice.DTO.ClientsPurchasesDTO;
 import com.integrador5.shopmicroservice.model.Client;
 import com.integrador5.shopmicroservice.model.Purchase;
 import com.integrador5.shopmicroservice.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,18 +43,13 @@ public class ClientService {
         }
     }
 
-    /**
-     * Obtiene un reporte de los clientes y el monto total de sus compras
-     * @return lista del tipo dto
-     */
-    public List<ClientsPurchasesDTO> getClientsPurchasesReport() {
-//        List<Purchase> clientPurchases = clientRepository.getClientPurchases();
-        List<ClientsPurchasesDTO> report = new ArrayList<>();
-        return report;
-    }
 
     public Client getById(Integer Id){
         return this.clientRepository.getReferenceById(Id);
+    }
+
+    public Optional<Client> findById(Integer Id){
+        return this.clientRepository.findById(Id);
     }
 
     public void updatePurchases(Client client ,Purchase purchase){

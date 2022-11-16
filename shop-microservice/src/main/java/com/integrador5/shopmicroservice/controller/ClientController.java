@@ -1,6 +1,5 @@
 package com.integrador5.shopmicroservice.controller;
 
-import com.integrador5.shopmicroservice.DTO.ClientsPurchasesDTO;
 import com.integrador5.shopmicroservice.model.Client;
 import com.integrador5.shopmicroservice.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,14 +40,11 @@ public class ClientController {
         this.clientService.updateClientByList(client);
     }
 
-    @GetMapping(value = "/ClientsPurchasesReport")
-    public List<ClientsPurchasesDTO> getClientsPurchasesReport(){
-        return clientService.getClientsPurchasesReport();
-    }
 
     @GetMapping(value = "/id/{id}")
-    public Client getById (@PathVariable Integer Id){
-        return this.clientService.getById(Id);
+    public Optional<Client> getById (@PathVariable Integer id){
+        return this.clientService.findById(id);
     }
+
 
 }

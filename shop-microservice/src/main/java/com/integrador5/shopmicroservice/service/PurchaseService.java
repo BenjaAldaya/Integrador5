@@ -1,30 +1,16 @@
 package com.integrador5.shopmicroservice.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.integrador5.shopmicroservice.DTO.ProductDTO;
-import com.integrador5.shopmicroservice.controller.ClientController;
 import com.integrador5.shopmicroservice.model.Client;
 import com.integrador5.shopmicroservice.model.Product;
 import com.integrador5.shopmicroservice.model.Purchase;
 import com.integrador5.shopmicroservice.repository.PurchaseRepository;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.lang.reflect.Type;
-import java.net.http.HttpClient;
-//import org.springframework.http.HttpEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
 
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class PurchaseService {
@@ -64,122 +50,48 @@ public class PurchaseService {
                 });
     }
 
-//    public void purchase(List<Product> toPurchase){
-//       //creo json de los productos a comprar (id_producto y cantidad)
-//        JSONArray body = crearjson(toPurchase);
-//        System.out.println(body.toList());
-//        //llamo al servicio de productos y me trae los productos que solicite y tienen stock disponible
-//        List<ProductDTO> allProduct = getProducts(body);
-//
-//        //recorrer y restar el stock
-//        for (Product p : toPurchase){
-//            for (ProductDTO pdto : allProduct) {
-//                if(p.getId() == pdto.getId_producto()){
-//                   int newstock = pdto.getStock()-p.getQuantity();
-//                   pdto.setStock(newstock);
-//              }
-//            }
-//        }
 
     public void purchase (List<Product> toPurchase ,Integer idClient){
         Client client = clientService.getById(idClient);
-        List<ProductDTO> allProduct = getProductByListOfId(toPurchase);
-        List<ProductDTO> listProductDto = searchAndUpdate(toPurchase,allProduct);
-        if(listProductDto != null){
-            if(update(listProductDto)){
-                //informacion de la compra
-                Date date = new Date();
-                SimpleDateFormat DateFor = new SimpleDateFormat("dd/MM/yyyy");
-                float totalprice = getTotalPrice(toPurchase,listProductDto);
-                //creo la compra
-                Purchase purchase = new Purchase(DateFor.format(date),totalprice, client);
-                //la persisto
-                Integer purchaseid = this.insertPurchase(purchase);
-                purchase.setId(purchaseid);
-                //actualizo los productos con la compra
-                for (Product p :toPurchase){
-                    p.setPurchase(purchase);
-                    this.productService.insertProduct(p);
+            List<ProductDTO> allProduct = this.productService.getProductByListOfId(toPurchase);
+            List<ProductDTO> listProductDto = this.productService.searchAndUpdate(toPurchase, allProduct);
+            if (listProductDto != null) {
+                if (this.productService.update(listProductDto)) {
+
+                    Date date = new Date();
+                    SimpleDateFormat DateFor = new SimpleDateFormat("dd/MM/yyyy");
+                    float totalprice = getTotalPrice(toPurchase, listProductDto);
+                    Purchase purchase = new Purchase(DateFor.format(date), totalprice, client);
+                    Integer purchaseid = this.insertPurchase(purchase);
+                    purchase.setId(purchaseid);
+
+                    this.productService.updatePurchaseinProduct(toPurchase, purchase);
+
+                    purchase.setProductList(toPurchase);
+
+                    this.updatePurchase(purchase.getId(), purchase);
+                    clientService.updatePurchases(client, purchase);
+                    System.out.println("se hizo la compra");
                 }
-
-                purchase.setProductList(toPurchase);
-                this.updatePurchase(purchase.getId(),purchase);
-//                System.out.println(this.getAllPurchases());
-                clientService.updatePurchases(client,purchase);
-//                System.out.println(client);
-                System.out.println("se hizo la compra");
+            } else {
+                System.out.println("NO se hizo la compra");
             }
-        }else{
-            System.out.println("NO se hizo la compra");
         }
-    }
 
-    public List<ProductDTO> searchAndUpdate(List<Product> toPurchase,List<ProductDTO> allProduct){
-        List<ProductDTO> listProduct = new ArrayList<>();
-        boolean existe = false;
+    public float getTotalPrice(List<Product> toPurchase, List<ProductDTO> listProduct){
+        float totalprice = 0 ;
         for (Product p : toPurchase){
-            for (ProductDTO pdto : allProduct) {
-                if (pdto != null) {
-                    if (p.getId() == pdto.getId_product()) {
-                        if (p.getQuantity() <= pdto.getStock() && p.getQuantity() <= 3) { // p.getQuantity <= 3 se sustituye por un metodo que revise las compras del cliente por dia y cantidad
-                            pdto.setStock(pdto.getStock() - p.getQuantity());
-                            listProduct.add(pdto);
-                            //agregar al precio total
-
-                            existe = true;
-                            break;
-                        } else {
-                            System.out.println("no hay stock");
-                            return null;
-                        }
-                    } else {
-                        existe = false;
-                    }
-                }else{
-                    System.out.println("el producto no existe");
-                    return null;
+            for (ProductDTO pdto :listProduct){
+                if(p.getId() == pdto.getId_product()){
+                    totalprice += pdto.getPrice() * p.getQuantity();
+                    break;
                 }
             }
-            if(!existe){
-                System.out.println("el producto no existe");
-                return null;
-            }
         }
-        return listProduct;
+        return totalprice;
     }
 
-//    public List<ProductDTO> getAllProduct(){
-//        RestTemplate restTemplate = new RestTemplate();
-//
-//        String resourceUrl
-//                = "http://localhost:8080/api/products/";
-//
-//        // Fetch response as List wrapped in ResponseEntity
-//        ResponseEntity<ProductDTO[]> response
-//                = restTemplate.getForEntity(resourceUrl, ProductDTO[].class);
-//
-//        ObjectMapper mapper = new ObjectMapper();
-//        ProductDTO[] products= response.getBody();
-//        return Arrays.stream(products)
-//                .map(object-> mapper.convertValue(object,ProductDTO.class))
-//                .collect(Collectors.toList());
-//    }
 
-    public List<ProductDTO> getProductByListOfId(List<Product> toPurchase){
-        List<ProductDTO> temp = new ArrayList<>();
-        RestTemplate restTemplate = new RestTemplate();
-        for(Product p : toPurchase) {
-            Integer id = p.getId();
-            String url = "http://localhost:8080/api/products/id/" + id;
-
-            ResponseEntity<ProductDTO> response =
-                    restTemplate.getForEntity(url,ProductDTO.class);
-
-            ProductDTO pdto = response.getBody();
-            temp.add(pdto);
-        }
-        return temp;
-    }
 
 
 //    public List<ProductDTO> getProducts(JSONArray body) {
@@ -203,47 +115,7 @@ public class PurchaseService {
 //
 //    }
 
-    public boolean update (List<ProductDTO> products ) {
-        RestTemplate restTemplate = new RestTemplate();
 
-        String resourceUrl
-                = "http://localhost:8080/api/products/update/id/list";
 
-        HttpEntity<List> request = new HttpEntity<>(products);
-        ResponseEntity<String> response = restTemplate.exchange(resourceUrl,HttpMethod.PUT,request,String.class);
-        int responsecode = response.getStatusCodeValue();
-        if(responsecode == 200) {
-            return true;
-        }else{
-            return false;
-        }
-
-    }
-
-    public JSONArray crearjson(List<Product> toPurchase) {
-        JSONArray jsonarray = new JSONArray();
-
-        for (Product p : toPurchase) {
-            JSONObject json = new JSONObject();
-            json.put("product_id", p.getId());
-            json.put("quantity", p.getQuantity());
-            jsonarray.put(json);
-        }
-
-        return jsonarray;
-    }
-
-    public float getTotalPrice(List<Product> toPurchase, List<ProductDTO> listProduct){
-        float totalprice = 0 ;
-        for (Product p : toPurchase){
-            for (ProductDTO pdto :listProduct){
-                if(p.getId() == pdto.getId_product()){
-                    totalprice += pdto.getPrice() * p.getQuantity();
-                    break;
-                }
-            }
-        }
-        return totalprice;
-    }
 
 }

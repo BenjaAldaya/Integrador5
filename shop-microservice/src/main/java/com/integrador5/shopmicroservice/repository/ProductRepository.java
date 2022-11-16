@@ -2,21 +2,17 @@ package com.integrador5.shopmicroservice.repository;
 
 import com.integrador5.shopmicroservice.DTO.MostPopularProductDTO;
 import com.integrador5.shopmicroservice.model.Product;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
-//        @Query("SELECT p.id as idProduct, p.name as nameProduct, SUM() ,count (c.) as cantidad FROM Product p join Purchase c on p.purchase.id = c.id order by cantidad desc")
-        //public Page<MostPopularProductDTO> getMostPopularProductReport(Pageable page);
-    @Query(value="SELECT new com.integrador5.shopmicroservice.DTO.MostPopularProductDTO(p.id,p.name ,SUM(p.quantity)) FROM Product p join Purchase c on c.id = p.purchase.id group by p.id,p.name")
-    public List<MostPopularProductDTO> getMostPopularProductReport();
+ @Query(value="SELECT new com.integrador5.shopmicroservice.DTO.MostPopularProductDTO(p.id_product,p.name ,p.quantity) FROM Product p join Purchase c on c.id = p.purchase.id")
+   // @Query(value = "SELECT p.id,p.name ,SUM(p.quantity) FROM Product p group by p.id,p.name",nativeQuery = true)
+    List<MostPopularProductDTO> getMostPopularProductReport();
 }
 
 

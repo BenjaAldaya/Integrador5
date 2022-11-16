@@ -2,6 +2,7 @@ package com.integrador5.shopmicroservice.service;
 
 import com.integrador5.shopmicroservice.DTO.MostPopularProductDTO;
 import com.integrador5.shopmicroservice.DTO.ProductDTO;
+import com.integrador5.shopmicroservice.DTO.ProductDTO2;
 import com.integrador5.shopmicroservice.model.Product;
 import com.integrador5.shopmicroservice.model.Purchase;
 import com.integrador5.shopmicroservice.repository.ProductRepository;
@@ -74,6 +75,7 @@ public class ProductService {
                         if (p.getQuantity() <= pdto.getStock() && p.getQuantity() <= 3) { // p.getQuantity <= 3 se sustituye por un metodo que revise las compras del cliente por dia y cantidad
                             pdto.setStock(pdto.getStock() - p.getQuantity());
                             p.setName(pdto.getName());
+                            p.setId_product(pdto.getId_product());
                             listProduct.add(pdto);
                             //agregar al precio total
 
@@ -109,8 +111,8 @@ public class ProductService {
 //        return this.productRepository.getMostPopularProductReport(PageRequest.of(0,1));
 //       }
 
-       public List<MostPopularProductDTO> getPopularProduct(){
-        return this.productRepository.getMostPopularProductReport();
+       public MostPopularProductDTO getPopularProduct(){
+        return this.productRepository.getMostPopularProductReport().get(0);
        }
 
 }

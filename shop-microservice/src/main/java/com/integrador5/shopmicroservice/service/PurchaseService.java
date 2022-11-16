@@ -67,10 +67,10 @@ public class PurchaseService {
 
                     this.productService.updatePurchaseinProduct(toPurchase, purchase);
 
-                    purchase.setProductList(toPurchase);
+//                    purchase.setProductList(toPurchase);
 
-                    this.updatePurchase(purchase.getId(), purchase);
-                    clientService.updatePurchases(client, purchase);
+//                    this.updatePurchase(purchase.getId(), purchase);
+//                    clientService.updatePurchases(client, purchase);
                     System.out.println("se hizo la compra");
                 }
             } else {

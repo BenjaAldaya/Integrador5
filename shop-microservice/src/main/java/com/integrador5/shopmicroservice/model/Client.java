@@ -1,6 +1,7 @@
 package com.integrador5.shopmicroservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,26 +31,6 @@ public class Client {
     public Client(String name) {
         this.purchaseslist = new ArrayList<>();
         this.name = name;
-    }
-
-    public Integer getId_client() {
-        return id_client;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Purchase> getPurchaseslist() {
-        return purchaseslist;
-    }
-
-    public void setPurchaseslist(List<Purchase> purchaseslist) {
-        this.purchaseslist = purchaseslist;
     }
 
     @Override

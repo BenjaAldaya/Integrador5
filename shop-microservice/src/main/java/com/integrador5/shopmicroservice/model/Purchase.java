@@ -1,6 +1,7 @@
 package com.integrador5.shopmicroservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Data
 @Setter
 @Getter
 public class Purchase {
@@ -38,42 +40,6 @@ public class Purchase {
         this.date = date;
         this.productList = new ArrayList<>();
         this.price = price;
-        this.client = client;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public List<Product> getProductList() {
-        return productList;
-    }
-
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
         this.client = client;
     }
 

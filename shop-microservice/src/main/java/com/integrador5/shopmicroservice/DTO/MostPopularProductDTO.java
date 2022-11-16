@@ -1,6 +1,7 @@
 package com.integrador5.shopmicroservice.DTO;
 
-public class MostPopularProductDTO {
+
+public class MostPopularProductDTO{
     private int idProduct;
     private String nameProduct;
     private long quantity;
@@ -11,6 +12,29 @@ public class MostPopularProductDTO {
         this.quantity = quantity;
     }
 
+    public int getIdProduct() {
+        return idProduct;
+    }
+
+    public void setIdProduct(int idProduct) {
+        this.idProduct = idProduct;
+    }
+
+    public String getNameProduct() {
+        return nameProduct;
+    }
+
+    public void setNameProduct(String nameProduct) {
+        this.nameProduct = nameProduct;
+    }
+
+    public long getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(long quantity) {
+        this.quantity = quantity;
+    }
 
     @Override
     public String toString() {

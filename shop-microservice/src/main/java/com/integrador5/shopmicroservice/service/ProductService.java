@@ -106,17 +106,9 @@ public class ProductService {
                this.insertProduct(p);
            }
        }
-//        @Transactional
-//       public Page<MostPopularProductDTO> getPopularProduct(){
-//        return this.productRepository.getMostPopularProductReport(PageRequest.of(0,1));
-//       }
 
        public MostPopularProductDTO getPopularProduct(){
-        List<MostPopularProductDTO> dto = this.productRepository.getMostPopularProductReport();
-        for (MostPopularProductDTO d : dto){
-            System.out.println(d);
-        }
-        return dto.get(0);
+        return this.productRepository.getMostPopularProductReport().get(0);
        }
 
 }

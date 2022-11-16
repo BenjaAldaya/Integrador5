@@ -1,5 +1,6 @@
 package com.integrador5.shopmicroservice.controller;
 
+import com.integrador5.shopmicroservice.DTO.PurchasesPerDayDTO;
 import com.integrador5.shopmicroservice.model.Product;
 import com.integrador5.shopmicroservice.model.Purchase;
 import com.integrador5.shopmicroservice.service.PurchaseService;
@@ -23,6 +24,11 @@ public class PurchaseController {
     @GetMapping(value = "/")
     public List<Purchase> getAllPurchase (){
         return this.purchaseService.getAllPurchases();
+    }
+
+    @GetMapping(value = "/purchasePerDayReport")
+    public List<PurchasesPerDayDTO> getPurchasesPerDayReport(){
+        return this.purchaseService.getPurchasesPerDayReport();
     }
 
 }

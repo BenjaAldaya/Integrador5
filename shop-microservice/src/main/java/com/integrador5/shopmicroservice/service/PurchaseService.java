@@ -1,6 +1,7 @@
 package com.integrador5.shopmicroservice.service;
 
 import com.integrador5.shopmicroservice.DTO.ProductDTO;
+import com.integrador5.shopmicroservice.DTO.PurchasesPerDayDTO;
 import com.integrador5.shopmicroservice.model.Client;
 import com.integrador5.shopmicroservice.model.Product;
 import com.integrador5.shopmicroservice.model.Purchase;
@@ -115,6 +116,9 @@ public class PurchaseService {
 //
 //    }
 
+    public List<PurchasesPerDayDTO> getPurchasesPerDayReport(){
+        return this.purchaseRepository.getPurchasesPerDayReport();
+    }
 
 
 

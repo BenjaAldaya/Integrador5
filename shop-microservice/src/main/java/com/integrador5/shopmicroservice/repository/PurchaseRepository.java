@@ -11,7 +11,6 @@ import java.util.List;
 @Repository
 public interface PurchaseRepository extends JpaRepository<Purchase, Integer> {
 
-    //TODO: probar
     @Query("SELECT new com.integrador5.shopmicroservice.DTO.PurchasesPerDayDTO(p.date, COUNT(p.id),SUM(p.price)) FROM Purchase p GROUP BY p.date")
     public List<PurchasesPerDayDTO> getPurchasesPerDayReport();
 

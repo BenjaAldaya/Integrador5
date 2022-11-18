@@ -29,48 +29,51 @@ public class ProductService {
         return this.productRepository.findAll();
     }
 
-    public List<ProductDTO> getProductByListOfId(List<Product> toPurchase){
-        List<ProductDTO> temp = new ArrayList<>();
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer "+ token);
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        for(Product p : toPurchase) {
-            Integer id = p.getId();
-            String url = "http://localhost:8080/api/products/id/" + id;
-
-            String json = "{}";
-            HttpEntity<String> entity = new HttpEntity<>(json,headers);
-            ResponseEntity<ProductDTO> response =
-                    restTemplate.exchange(url,HttpMethod.GET,entity,ProductDTO.class);
-
-            ProductDTO pdto = response.getBody();
-            temp.add(pdto);
-        }
-        return temp;
-    }
-
 //    public List<ProductDTO> getProductByListOfId(List<Product> toPurchase){
+//        List<ProductDTO> temp = new ArrayList<>();
 //        RestTemplate restTemplate = new RestTemplate();
 //
-//        String resourceUrl
-//                = "http://localhost:8080/api/products/cart";
-//
 //        HttpHeaders headers = new HttpHeaders();
-//        headers.set("Authorization", "Bearer "+ token);
+//        headers.set("Authorization", "Bearer "+ "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzb2Z0dGVrSldUIiwic3ViIjoidXMsdXNlcjEiLCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjY4ODA2MjEyLCJleHAiOjE2Njg4MDY4MTJ9.cfSUwIsGhEJ-KyW5sGXi1yRaaKi-vCYIl-v5tW-Vo2cJvY61-2eEjMEOiqsFPFpZWlDqBvD20a4e8LEPC_cyrw");
 //        headers.setContentType(MediaType.APPLICATION_JSON);
 //
-//        HttpEntity<List> request = new HttpEntity<>(toPurchase,headers);
-//        ResponseEntity<ProductDTO[]> response = restTemplate.exchange(resourceUrl, HttpMethod.POST,request,ProductDTO[].class);
+//        for(Product p : toPurchase) {
+//            Integer id = p.getId();
+//            String url = "http://localhost:8080/api/products/id/" + id;
 //
-//        ObjectMapper mapper = new ObjectMapper();
-//        ProductDTO[] products= response.getBody();
-//        return Arrays.stream(products)
-//                .map(object-> mapper.convertValue(object,ProductDTO.class))
-//                .collect(Collectors.toList());
+//// en caso de que el get no necesite token
+//            ResponseEntity<ProductDTO> response = restTemplate.getForEntity(url,ProductDTO.class);
+//
+//           //en caso de que el get necesite un token
+////            HttpEntity<String> entity = new HttpEntity<>(headers);
+////            ResponseEntity<ProductDTO> response =
+////                    restTemplate.exchange(url,HttpMethod.GET,entity,ProductDTO.class);
+//
+//            ProductDTO pdto = response.getBody();
+//            temp.add(pdto);
+//        }
+//        return temp;
 //    }
+
+    public List<ProductDTO> getProductByListOfId(List<Product> toPurchase){
+        RestTemplate restTemplate = new RestTemplate();
+
+        String resourceUrl
+                = "http://localhost:8080/api/products/cart";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer "+ "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzb2Z0dGVrSldUIiwic3ViIjoidXMsdXNlcjEiLCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjY4ODA3MjUxLCJleHAiOjE2Njg4MDc4NTF9.4DcI3ltIEb0zjtwte-RIrNMmMOnX44BsEWGoDOA09VP8dxJB89vFEF5aktfKry1IkOXmalOjYsepJFwRfXrF0Q");
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<List> request = new HttpEntity<>(toPurchase,headers);
+        ResponseEntity<ProductDTO[]> response = restTemplate.exchange(resourceUrl, HttpMethod.POST,request,ProductDTO[].class);
+
+        ObjectMapper mapper = new ObjectMapper();
+        ProductDTO[] products= response.getBody();
+        return Arrays.stream(products)
+                .map(object-> mapper.convertValue(object,ProductDTO.class))
+                .collect(Collectors.toList());
+    }
 
 
     public boolean update (List<ProductDTO> products ) {
@@ -80,13 +83,14 @@ public class ProductService {
                 = "http://localhost:8080/api/products/update/id/list";
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer "+ token);
+        headers.set("Authorization", "Bearer "+ "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzb2Z0dGVrSldUIiwic3ViIjoidXMsdXNlcjEiLCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjY4ODA3MjUxLCJleHAiOjE2Njg4MDc4NTF9.4DcI3ltIEb0zjtwte-RIrNMmMOnX44BsEWGoDOA09VP8dxJB89vFEF5aktfKry1IkOXmalOjYsepJFwRfXrF0Q");
         headers.setContentType(MediaType.APPLICATION_JSON);
 
 
         HttpEntity<List> request = new HttpEntity<>(products,headers);
         ResponseEntity<String> response = restTemplate.exchange(resourceUrl, HttpMethod.PUT,request,String.class);
         int responsecode = response.getStatusCodeValue();
+        System.out.println(responsecode);
         if(responsecode == 200) {
             return true;
         }else{

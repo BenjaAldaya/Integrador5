@@ -29,9 +29,9 @@ public class ProductMicroserviceApplication {
 					.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 					.authorizeRequests()
 					.antMatchers(HttpMethod.POST, "/user").permitAll()
-					.antMatchers(HttpMethod.POST, "/api/products").authenticated()
-					.antMatchers(HttpMethod.DELETE, "/api/products").authenticated()
-					.antMatchers(HttpMethod.PUT, "/api/products").authenticated()
+					.antMatchers(HttpMethod.POST, "/api/products/**").authenticated()
+					.antMatchers(HttpMethod.DELETE, "/api/products/**").authenticated()
+					.antMatchers(HttpMethod.PUT, "/api/products/**").authenticated()
 					//.antMatchers("/api/products/**").authenticated()
 					.anyRequest().permitAll();
 		}

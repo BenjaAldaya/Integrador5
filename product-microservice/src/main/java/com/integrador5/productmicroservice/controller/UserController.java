@@ -29,7 +29,7 @@ public class UserController {
     }
 
     private String getJWTToken(String username) {
-        String secretKey = "grupo1-secret-key-product-ms";
+        String secretKey = "grupo1-secret-key";
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
                 .commaSeparatedStringToAuthorityList("ROLE_USER");
 

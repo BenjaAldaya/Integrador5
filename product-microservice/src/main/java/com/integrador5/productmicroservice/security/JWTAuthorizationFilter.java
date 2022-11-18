@@ -18,7 +18,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     private final String HEADER = "Authorization";
     private final String PREFIX = "Bearer ";
-    private final String SECRET = "grupo1-secret-key-product-ms";
+    private final String SECRET = "grupo1-secret-key";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)

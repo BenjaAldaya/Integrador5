@@ -22,6 +22,7 @@ public class ShopMicroserviceApplication {
 	@Configuration
 	@EnableGlobalMethodSecurity(prePostEnabled = true)
 	class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+		public static final String SWAGGER_DOCUMENTATION = "/swagger-ui/index.html";
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			//desactiv el metodo por defecto
@@ -30,7 +31,13 @@ public class ShopMicroserviceApplication {
 					.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 					.authorizeRequests()
 					.antMatchers(HttpMethod.POST, "/user").permitAll()
-					.anyRequest().authenticated();
+					.antMatchers("/api/clients/**").authenticated()
+					.antMatchers("/api/products/**").authenticated()
+					.antMatchers("/api/purchases/**").authenticated()
+					.antMatchers(HttpMethod.GET, SWAGGER_DOCUMENTATION).permitAll()
+					.anyRequest().permitAll();
+		//			.anyRequest().authenticated();
+
 		}
 	}
 }

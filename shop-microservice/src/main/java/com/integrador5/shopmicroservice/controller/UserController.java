@@ -3,6 +3,8 @@ package com.integrador5.shopmicroservice.controller;
 import com.integrador5.shopmicroservice.DTO.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +15,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@Tag(name="User", description="User related resources")
 public class UserController {
 
     @PostMapping("/user")
+    @Operation(summary="Login")
     public User login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
 
         String token = getJWTToken(username);

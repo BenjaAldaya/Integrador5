@@ -34,31 +34,31 @@ public class ProductController {
 
 
     @DeleteMapping(value = "/delete/id/{id}")
-    @Operation(summary="", description="")
+    @Operation(summary="Delete a product", description="Delete a product by id")
     public void deleteProduct(@PathVariable Integer id){
         this.productService.deleteProduct(id);
     }
 
     @PutMapping(value="/update/id/{id}")
-    //@Operation(summary="", description="")
+    @Operation(summary="Update product", description="Update a product by id")
     public void updateProduct(@PathVariable Integer id, @RequestBody Product product){
         this.productService.updateProduct(id,product);
     }
 
     @PutMapping(value="/update/id/list")
-    //@Operation(summary="", description="")
+    @Operation(summary="Update products", description="Update a list of products")
     public void updateProductByList(@RequestBody List<Product> product){
         this.productService.updateProductByList(product);
     }
 
     @GetMapping(value="/cart")
-    //@Operation(summary="", description="")
+    @Operation(summary="Cart", description="Cart of products to buy")
     public List<Product> canBuyThem(@RequestBody List<ProductDTO> products){
         return this.productService.findCanBuy(products);
     }
 
     @GetMapping(value = "/id/{id}")
-    //@Operation(summary="", description="")
+    @Operation(summary="Get product", description="Get product by id")
     public Optional<Product> getById(@PathVariable Integer id){
         return this.productService.getById(id);
     }

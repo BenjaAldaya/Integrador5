@@ -51,7 +51,7 @@ public class ProductController {
         this.productService.updateProductByList(product);
     }
 
-    @GetMapping(value="/cart")
+    @PostMapping(value="/cart")
     @Operation(summary="Cart", description="Cart of products to buy")
     public List<Product> canBuyThem(@RequestBody List<ProductDTO> products){
         return this.productService.findCanBuy(products);

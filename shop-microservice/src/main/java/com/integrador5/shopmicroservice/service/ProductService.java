@@ -1,23 +1,20 @@
 package com.integrador5.shopmicroservice.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.integrador5.shopmicroservice.DTO.MostPopularProductDTO;
 import com.integrador5.shopmicroservice.DTO.ProductDTO;
-import com.integrador5.shopmicroservice.DTO.ProductDTO2;
 import com.integrador5.shopmicroservice.model.Product;
 import com.integrador5.shopmicroservice.model.Purchase;
 import com.integrador5.shopmicroservice.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -35,12 +32,19 @@ public class ProductService {
     public List<ProductDTO> getProductByListOfId(List<Product> toPurchase){
         List<ProductDTO> temp = new ArrayList<>();
         RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer "+ token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
         for(Product p : toPurchase) {
             Integer id = p.getId();
             String url = "http://localhost:8080/api/products/id/" + id;
 
+            String json = "{}";
+            HttpEntity<String> entity = new HttpEntity<>(json,headers);
             ResponseEntity<ProductDTO> response =
-                    restTemplate.getForEntity(url,ProductDTO.class);
+                    restTemplate.exchange(url,HttpMethod.GET,entity,ProductDTO.class);
 
             ProductDTO pdto = response.getBody();
             temp.add(pdto);
@@ -48,13 +52,39 @@ public class ProductService {
         return temp;
     }
 
+//    public List<ProductDTO> getProductByListOfId(List<Product> toPurchase){
+//        RestTemplate restTemplate = new RestTemplate();
+//
+//        String resourceUrl
+//                = "http://localhost:8080/api/products/cart";
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.set("Authorization", "Bearer "+ token);
+//        headers.setContentType(MediaType.APPLICATION_JSON);
+//
+//        HttpEntity<List> request = new HttpEntity<>(toPurchase,headers);
+//        ResponseEntity<ProductDTO[]> response = restTemplate.exchange(resourceUrl, HttpMethod.POST,request,ProductDTO[].class);
+//
+//        ObjectMapper mapper = new ObjectMapper();
+//        ProductDTO[] products= response.getBody();
+//        return Arrays.stream(products)
+//                .map(object-> mapper.convertValue(object,ProductDTO.class))
+//                .collect(Collectors.toList());
+//    }
+
+
     public boolean update (List<ProductDTO> products ) {
         RestTemplate restTemplate = new RestTemplate();
 
         String resourceUrl
                 = "http://localhost:8080/api/products/update/id/list";
 
-        HttpEntity<List> request = new HttpEntity<>(products);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer "+ token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+
+        HttpEntity<List> request = new HttpEntity<>(products,headers);
         ResponseEntity<String> response = restTemplate.exchange(resourceUrl, HttpMethod.PUT,request,String.class);
         int responsecode = response.getStatusCodeValue();
         if(responsecode == 200) {
